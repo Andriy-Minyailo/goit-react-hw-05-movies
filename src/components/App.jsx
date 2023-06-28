@@ -4,7 +4,8 @@
 // const requestServer = new RequestServer();
 
 import { Home } from 'pages/Home';
-import { Routes, Route, NavLink, Link } from 'react-router-dom';
+import { Movies } from 'pages/Movies';
+import { Routes, Route,  Link } from 'react-router-dom';
 
 export const App = () => {
   return (
@@ -22,13 +23,13 @@ export const App = () => {
       {/* <TrendingToday /> */}
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/products">Products</Link>
+        <Link to="/movies">Movies</Link>
+        {/* <Link to="/movie:movieId">Products</Link> */}
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/about" element={<About />} />
-        <Route path="/products" element={<Products />} /> */}
+        <Route path="/movies" element={<Movies />} />
+        {/* <Route path="/movie:movieId" element={<MovieDetails />} /> */}
       </Routes>
     </div>
   );
