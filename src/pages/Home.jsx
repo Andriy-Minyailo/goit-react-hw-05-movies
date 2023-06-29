@@ -19,7 +19,7 @@ export const Home = () => {
         console.log(error);
       }
     };
-    // fetchTrendMovies();
+    fetchTrendMovies();
   }, []);
 
   return (
