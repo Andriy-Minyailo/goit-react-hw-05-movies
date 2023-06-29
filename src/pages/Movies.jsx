@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { ListMovies } from 'components/ListMovies/ListMovies';
+import { useState } from 'react';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
@@ -6,7 +7,7 @@ const requestServer = new RequestServer();
 export const Movies = () => {
   const [inputValue, setInputValue] = useState('');
   const [arraySearchMovies, setArraySearchMovies] = useState([]);
-  //   useEffect(() => {}, []);
+
   const submitSearchMovies = async () => {
     try {
       const {
@@ -25,13 +26,7 @@ export const Movies = () => {
         value={inputValue}
       ></input>
       <button onClick={submitSearchMovies}>Search</button>
-      {arraySearchMovies.map(({ id, original_title }) => {
-        return (
-          <div key={id} to={id}>
-            {original_title}
-          </div>
-        );
-      })}
+      <ListMovies arrayMovies={arraySearchMovies} />
     </>
   );
 };

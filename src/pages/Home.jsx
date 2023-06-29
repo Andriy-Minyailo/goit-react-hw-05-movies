@@ -1,5 +1,5 @@
+import { ListMovies } from 'components/ListMovies/ListMovies';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
@@ -8,6 +8,7 @@ export const Home = () => {
   const [arrayMovies, setArrayMovies] = useState([]);
 
   useEffect(() => {
+    console.log('test');
     const fetchTrendMovies = async () => {
       try {
         const {
@@ -18,21 +19,13 @@ export const Home = () => {
         console.log(error);
       }
     };
-    fetchTrendMovies();
+    // fetchTrendMovies();
   }, []);
 
   return (
     <>
       <h1>Trending today</h1>
-      <nav>
-        {arrayMovies.map(({ id, original_title }) => {
-          return (
-            <NavLink key={id} to={`/movies/${id}`}>
-              {original_title}
-            </NavLink>
-          );
-        })}
-      </nav>
+      <ListMovies arrayMovies={arrayMovies} />
     </>
   );
 };

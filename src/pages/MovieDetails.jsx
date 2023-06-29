@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Suspense, useEffect, useState } from 'react';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
@@ -7,14 +7,12 @@ const requestServer = new RequestServer();
 export const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState('');
   const { movieId } = useParams();
-  console.log(movieId);
 
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
         const { data } = await requestServer.movieDetails(movieId);
         setMovieDetails(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -24,16 +22,31 @@ export const MovieDetails = () => {
 
   const { original_title, poster_path, genres, vote_average, overview } =
     movieDetails;
+
   return (
-    <>
-      <h2>{original_title}</h2>
-      <img
-        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-        alt={original_title}
-      />
-      <p>{genres}</p>
-      <p>{vote_average}</p>
-      <p>{overview}</p>
-    </>
+    movieDetails && (
+      <>
+        <div>
+          <h2>{original_title}</h2>
+          <p>{Math.round(vote_average * 10)}%</p>
+
+          <h3>Overview</h3>
+          <p>{overview}</p>
+          <h3>Genres</h3>
+          <p>{genres.reduce((acc, obj) => acc + `${obj.name} `, '')}</p>
+        </div>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+          alt={original_title}
+        />
+        <nav>
+          <Link to="cast">Cast</Link>
+          <Link to="reviews">Reviews</Link>
+        </nav>
+        <Suspense>
+          <Outlet />
+        </Suspense>
+      </>
+    )
   );
 };
