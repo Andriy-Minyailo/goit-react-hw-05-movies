@@ -27,6 +27,7 @@ export const MovieDetails = () => {
     movieDetails && (
       <>
         <div>
+          <button>Go Back</button>
           <h2>{original_title}</h2>
           <p>{Math.round(vote_average * 10)}%</p>
 

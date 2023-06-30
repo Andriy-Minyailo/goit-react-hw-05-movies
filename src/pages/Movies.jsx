@@ -9,44 +9,48 @@ export const Movies = () => {
   const [inputValue, setInputValue] = useState('');
   const [arraySearchMovies, setArraySearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query');
-
-  // const submitSearchMovies = async () => {
-  //   try {
-  //     const {
-  //       data: { results },
-  //     } = await requestServer.searchMovies(inputValue);
-  //     setArraySearchMovies(results);
-  //     setSearchParams({ query: inputValue });
-  //     setInputValue('');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const queryValue = searchParams.get('query');
+  console.log(queryValue);
+  console.log(inputValue);
 
   useEffect(() => {
-    const submitSearchMovies = async () => {
+    if (!queryValue) {
+      return;
+    }
+    const searchMovies = async () => {
       try {
         const {
           data: { results },
-        } = await requestServer.searchMovies(query);
+        } = await requestServer.searchMovies(queryValue);
         setArraySearchMovies(results);
-        // setInputValue('');
       } catch (error) {
         console.log(error);
       }
     };
+    searchMovies();
+    setInputValue(queryValue);
+  }, [queryValue]);
 
-    submitSearchMovies();
-  }, [query]);
+  const submitButtonSearch = evt => {
+    evt.preventDefault();
+    if (!inputValue) {
+      setArraySearchMovies([]);
+      setSearchParams({});
+      alert('Enter data to search!');
+      return;
+    }
+    setSearchParams({ query: inputValue });
+  };
 
   return (
     <>
-      <input
-        onChange={({ target: { value } }) => setInputValue(value)}
-        value={inputValue}
-      ></input>
-      <button onClick={setSearchParams({ query: inputValue })}>Search</button>
+      <form onSubmit={submitButtonSearch}>
+        <input
+          onChange={({ target: { value } }) => setInputValue(value)}
+          value={inputValue}
+        ></input>
+        <button type="submit">Search</button>
+      </form>
       <ListMovies arrayMovies={arraySearchMovies} />
     </>
   );
