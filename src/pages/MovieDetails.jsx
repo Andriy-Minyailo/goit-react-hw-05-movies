@@ -1,20 +1,14 @@
-import { Suspense, useEffect, useState } from 'react';
-import {
-  Link,
-  NavLink,
-  Outlet,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState('');
   const { movieId } = useParams();
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/';
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -35,7 +29,7 @@ export const MovieDetails = () => {
     movieDetails && (
       <>
         <div>
-          <NavLink to={backLinkHref}>Go Back</NavLink>
+          <NavLink to={backLinkHref.current}>Go Back</NavLink>
           <h2>{original_title}</h2>
           <p>{Math.round(vote_average * 10)}%</p>
 
@@ -45,12 +39,17 @@ export const MovieDetails = () => {
           <p>{genres.reduce((acc, obj) => acc + `${obj.name} `, '')}</p>
         </div>
         <img
-          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w500${poster_path}`
+              : `https://cdn.pixabay.com/photo/2016/12/14/23/08/page-not-found-1907792_640.jpg`
+          }
           alt={original_title}
         />
+        <p>Additional information</p>
         <nav>
-          <Link to="cast">Cast</Link>
-          <Link to="reviews">Reviews</Link>
+          <NavLink to="cast">Cast</NavLink>
+          <NavLink to="reviews">Reviews</NavLink>
         </nav>
         <Suspense>
           <Outlet />
@@ -59,3 +58,5 @@ export const MovieDetails = () => {
     )
   );
 };
+
+export default MovieDetails;

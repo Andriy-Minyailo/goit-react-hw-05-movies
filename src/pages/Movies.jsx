@@ -5,7 +5,7 @@ import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
 
-export const Movies = () => {
+const Movies = () => {
   const [inputValue, setInputValue] = useState('');
   const [arraySearchMovies, setArraySearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,3 +59,5 @@ export const Movies = () => {
     </>
   );
 };
+
+export default Movies;

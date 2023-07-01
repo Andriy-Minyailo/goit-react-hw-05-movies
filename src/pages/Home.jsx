@@ -4,7 +4,7 @@ import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
 
-export const Home = () => {
+const Home = () => {
   const [arrayMovies, setArrayMovies] = useState([]);
 
   useEffect(() => {
@@ -29,3 +29,5 @@ export const Home = () => {
     </>
   );
 };
+
+export default Home;

@@ -5,7 +5,7 @@ import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
@@ -25,8 +25,16 @@ export const Cast = () => {
   }, [movieId]);
 
   return (
-    <ul>
-      <CastList cast={cast} />{' '}
-    </ul>
+    <>
+      {cast.length ? (
+        <ul>
+          <CastList cast={cast} />
+        </ul>
+      ) : (
+        <p>We don't have any acteurs for this movie</p>
+      )}
+    </>
   );
 };
+
+export default Cast;

@@ -5,7 +5,7 @@ import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
@@ -15,7 +15,7 @@ export const Reviews = () => {
           data: { results },
         } = await requestServer.movieReviews(movieId);
         setReviews(results);
-        console.log(results);
+        // console.log(results);
       } catch (error) {
         console.log(error);
       }
@@ -24,8 +24,16 @@ export const Reviews = () => {
   }, [movieId]);
 
   return (
-    <ul>
-      <ReviewsList reviews={reviews} />
-    </ul>
+    <>
+      {reviews.length ? (
+        <ul>
+          <ReviewsList reviews={reviews} />
+        </ul>
+      ) : (
+        <p>We don't have any reviews for this movie</p>
+      )}
+    </>
   );
 };
+
+export default Reviews;
