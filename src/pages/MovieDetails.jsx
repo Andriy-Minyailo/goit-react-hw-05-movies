@@ -1,5 +1,11 @@
 import { Suspense, useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
@@ -7,6 +13,8 @@ const requestServer = new RequestServer();
 export const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState('');
   const { movieId } = useParams();
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -27,7 +35,7 @@ export const MovieDetails = () => {
     movieDetails && (
       <>
         <div>
-          <button>Go Back</button>
+          <NavLink to={backLinkHref}>Go Back</NavLink>
           <h2>{original_title}</h2>
           <p>{Math.round(vote_average * 10)}%</p>
 

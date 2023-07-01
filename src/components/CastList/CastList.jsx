@@ -5,7 +5,9 @@ export const CastList = ({ cast }) => {
         return (
           <li key={id}>
             <img
-              src={`https://image.tmdb.org/t/p/w200${profile_path}`}
+              src={ `https://image.tmdb.org/t/p/w200${profile_path}`
+                  
+              }
               alt={name}
             />
             <p>{name}</p>

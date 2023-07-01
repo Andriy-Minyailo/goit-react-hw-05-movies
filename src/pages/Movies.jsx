@@ -1,6 +1,6 @@
 import { ListMovies } from 'components/ListMovies/ListMovies';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {  useSearchParams } from 'react-router-dom';
 import { RequestServer } from 'requestServer';
 
 const requestServer = new RequestServer();
@@ -10,8 +10,7 @@ export const Movies = () => {
   const [arraySearchMovies, setArraySearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const queryValue = searchParams.get('query');
-  console.log(queryValue);
-  console.log(inputValue);
+ 
 
   useEffect(() => {
     if (!queryValue) {
@@ -20,9 +19,10 @@ export const Movies = () => {
     const searchMovies = async () => {
       try {
         const {
-          data: { results },
+          data: { results, total_results },
         } = await requestServer.searchMovies(queryValue);
         setArraySearchMovies(results);
+        if (!total_results) alert('Not found!');
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +33,7 @@ export const Movies = () => {
 
   const submitButtonSearch = evt => {
     evt.preventDefault();
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       setArraySearchMovies([]);
       setSearchParams({});
       alert('Enter data to search!');
@@ -51,7 +51,11 @@ export const Movies = () => {
         ></input>
         <button type="submit">Search</button>
       </form>
-      <ListMovies arrayMovies={arraySearchMovies} />
+      {
+        <ListMovies
+          arrayMovies={arraySearchMovies}
+         />
+      }
     </>
   );
 };
