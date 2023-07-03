@@ -8,7 +8,6 @@ const Home = () => {
   const [arrayMovies, setArrayMovies] = useState([]);
 
   useEffect(() => {
-    console.log('test');
     const fetchTrendMovies = async () => {
       try {
         const {

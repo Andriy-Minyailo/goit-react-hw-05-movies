@@ -15,7 +15,6 @@ const Reviews = () => {
           data: { results },
         } = await requestServer.movieReviews(movieId);
         setReviews(results);
-        // console.log(results);
       } catch (error) {
         console.log(error);
       }

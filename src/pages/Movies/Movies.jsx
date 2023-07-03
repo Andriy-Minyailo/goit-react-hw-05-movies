@@ -1,7 +1,8 @@
 import { ListMovies } from 'components/ListMovies/ListMovies';
 import { useEffect, useState } from 'react';
-import {  useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { RequestServer } from 'requestServer';
+import css from './Movies.module.css';
 
 const requestServer = new RequestServer();
 
@@ -10,7 +11,6 @@ const Movies = () => {
   const [arraySearchMovies, setArraySearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const queryValue = searchParams.get('query');
- 
 
   useEffect(() => {
     if (!queryValue) {
@@ -44,18 +44,17 @@ const Movies = () => {
 
   return (
     <>
-      <form onSubmit={submitButtonSearch}>
+      <form className={css.movies__form} onSubmit={submitButtonSearch}>
         <input
           onChange={({ target: { value } }) => setInputValue(value)}
           value={inputValue}
+          className={css.movies__input}
         ></input>
-        <button type="submit">Search</button>
+        <button className={css.movies__button} type="submit">
+          Search
+        </button>
       </form>
-      {
-        <ListMovies
-          arrayMovies={arraySearchMovies}
-         />
-      }
+      {<ListMovies arrayMovies={arraySearchMovies} />}
     </>
   );
 };

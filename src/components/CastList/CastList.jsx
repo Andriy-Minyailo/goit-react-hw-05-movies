@@ -1,3 +1,4 @@
+import css from './CastList.module.css';
 export const CastList = ({ cast }) => {
   return (
     <>
@@ -5,6 +6,7 @@ export const CastList = ({ cast }) => {
         return (
           <li key={id}>
             <img
+              className={css.img}
               src={
                 profile_path
                   ? `https://image.tmdb.org/t/p/w200${profile_path}`
